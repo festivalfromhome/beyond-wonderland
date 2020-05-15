@@ -2,11 +2,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>
 {{- block "title" . -}}
-	{{- if .IsHome -}}
-		{{ .Title }}
-	{{- else -}}
-		{{ .Title }} · {{ .Site.Title }}
-	{{- end -}}
+  {{- if .IsHome -}}
+    {{ .Title }}
+  {{- else -}}
+    {{ .Title }} · {{ .Site.Title }}
+  {{- end -}}
 {{- end -}}
 </title>
 {{ if .Description }}
@@ -22,9 +22,9 @@
 
 {{ $styles := resources.Get "css/styles.css" | postCSS (dict "config" "./assets/css/postcss.config.js") }}
 {{ if .Site.IsServer }}
-	<link rel="stylesheet" href="{{ $styles.RelPermalink }}">
+  <link rel="stylesheet" href="{{ $styles.RelPermalink }}">
 {{ else }}
-	{{ $styles := $styles| minify | fingerprint | resources.PostProcess }}
-	<link rel="stylesheet" href="{{ $styles.Permalink }}" integrity="{{ $styles.Data.Integrity }}">
+  {{ $styles := $styles| minify | fingerprint | resources.PostProcess }}
+  <link rel="stylesheet" href="{{ $styles.Permalink }}" integrity="{{ $styles.Data.Integrity }}">
 {{ end }}
 <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />"
