@@ -1,4 +1,4 @@
-<header class="w-full">
+<header class="w-full z-20">
   <nav class="flex items-center justify-between flex-wrap bg-nav shadow">
     <a href="{{ .Site.Home.Permalink }}" class="flex items-center text-gray-700 font-bold">
       <div class="w-40">
@@ -20,7 +20,7 @@
       </svg>
     </label>
 
-    <ul id="nav-menu" class="sm:flex w-full sm:w-auto hidden sm:block mt-0 py-3 sm:pt-0 sm:space-x-2 bg-nav-menu sm:bg-transparent text-sm text-center text-white tracking-widest">
+    <ul id="nav-menu" class="sm:flex w-full sm:w-auto hidden sm:block mt-0 py-3 sm:pt-0 sm:space-x-2 bg-black bg-opacity-25 sm:bg-transparent text-sm text-center text-white tracking-widest">
       {{ range where .Site.Pages "Params.isinheader" true }}
       <li class="h-auto">
         <a href="{{ .Permalink }}" class="inline-block w-full py-3 hover:text-gray-light">{{ lower .Title }}</a>

@@ -1,0 +1,145 @@
+<div>
+  <form autocomplete="off" onsubmit="submitSearch()">
+    <div class="relative inline-flex items-center relative w-full px-5 py-3 shadow focus-within:shadow-lg rounded-full bg-white transition-shadow duration-200 ease-in-out">
+      <input
+        id="search-bar-input"
+        type="text"
+        name="artist"
+        placeholder="search for artists"
+        spellcheck="false"
+        class="flex-auto outline-none text-sm text-gray leading-tight tracking-wider">
+      <button type="submit" class="ml-2">
+        <svg
+          class="w-4 text-gray fill-current"
+          xmlns="http://www.w3.org/2000/svg"
+          version="1.1"
+          viewBox="-1 0 136 136.21852"
+          >
+          <g>
+            <path d="M 93.148438 80.832031 C 109.5 57.742188 104.03125 25.769531 80.941406 9.421875 C 57.851562 -6.925781 25.878906 -1.460938 9.53125 21.632812 C -6.816406 44.722656 -1.351562 76.691406 21.742188 93.039062 C 38.222656 104.707031 60.011719 105.605469 77.394531 95.339844 L 115.164062 132.882812 C 119.242188 137.175781 126.027344 137.347656 130.320312 133.269531 C 134.613281 129.195312 134.785156 122.410156 130.710938 118.117188 C 130.582031 117.980469 130.457031 117.855469 130.320312 117.726562 Z M 51.308594 84.332031 C 33.0625 84.335938 18.269531 69.554688 18.257812 51.308594 C 18.253906 33.0625 33.035156 18.269531 51.285156 18.261719 C 69.507812 18.253906 84.292969 33.011719 84.328125 51.234375 C 84.359375 69.484375 69.585938 84.300781 51.332031 84.332031 C 51.324219 84.332031 51.320312 84.332031 51.308594 84.332031 Z M 51.308594 84.332031" />
+          </g>
+        </svg>
+      </button>
+    </div>
+  </form>
+</div>
+<script type="text/javascript">
+  /*
+   * @arg input   An input field in the DOM.
+   * @arg items   A array of strings, containing valid suggestion items.
+   */
+  function enableSuggestions(input, items) {
+    var SUGGESTIONS_DIV_CLASS = "suggestions";
+    var ACTIVE_DIV_CLASS = "suggestion-active";
+    var currentFocus;
+
+    // Listen for change to input field.
+    input.addEventListener("input", function(_inputEvent) {
+      closeAllLists();
+      currentFocus = -1;
+
+      var val = this.value;
+      if (!val) { return false; }
+
+      // Create div to hold the list of suggestions.
+      var suggestionsDiv = document.createElement("div");
+      suggestionsDiv.setAttribute("id", this.id + SUGGESTIONS_DIV_CLASS);
+      suggestionsDiv.setAttribute("class", SUGGESTIONS_DIV_CLASS);
+
+      this.parentNode.appendChild(suggestionsDiv);
+
+      // Add suggestion items.
+      for (i = 0; i < items.length; i++) {
+        suggestionItemDiv = document.createElement("div");
+        suggestionItemDiv.innerHTML = items[i];
+        
+        // Listen for clicks on suggestion item.
+        suggestionItemDiv.addEventListener("click", function(clickEvent) {
+          input.value = this.innerText;
+          closeAllLists();
+        });
+
+        suggestionsDiv.appendChild(suggestionItemDiv);
+      }
+    });
+
+    // Listen for button presses (UP, DOWN, ENTER).
+    input.addEventListener("keydown", function(keydownEvent) {
+      var suggestionsDiv = document.getElementById(this.id + SUGGESTIONS_DIV_CLASS);
+      if (suggestionsDiv === null) { return false; }
+      
+      var suggestionItemsDivArray = suggestionsDiv.getElementsByTagName("div");
+
+      if (keydownEvent.keyCode == 38) {
+        // UP keypress
+        keydownEvent.preventDefault();
+        currentFocus--;
+        addActive(suggestionItemsDivArray);
+      }
+      
+      if (keydownEvent.keyCode == 40) {
+        // DOWN keypress
+        keydownEvent.preventDefault();
+        currentFocus++;
+        addActive(suggestionItemsDivArray);
+      }
+      
+      if (keydownEvent.keyCode == 13) {
+        // ENTER keypress
+        keydownEvent.preventDefault();
+        if (currentFocus > -1 && suggestionItemsDivArray) {
+          // Simulate click on active suggestion item div.
+          suggestionItemsDivArray[currentFocus].click();
+        }
+      }
+    });
+
+    // Listen for click events outside of suggestions div.
+    document.addEventListener("click", function (clickEvent) {
+      closeAllLists(clickEvent.target);
+    });
+
+
+    /* Helper Functions */
+
+    /**
+     * @arg suggestionItemsDivArray   An array of divs on the DOM, each
+     *                                containing a suggestion item.
+     */
+    function addActive(suggestionItemsDivArray) {
+      clearActive(suggestionItemsDivArray);
+      var numItems = suggestionItemsDivArray.length;
+      if (currentFocus >= numItems) { currentFocus = 0; }
+      if (currentFocus < 0) { currentFocus = (numItems - 1); }
+      var activeSuggestionItemDiv = suggestionItemsDivArray[currentFocus];
+      activeSuggestionItemDiv.classList.add(ACTIVE_DIV_CLASS);
+    }
+
+    /**
+     * @arg suggestionItemsDivArray   An array of divs on the DOM, each
+     *                                containing a suggestion item.
+     */
+    function clearActive(suggestionItemsDivArray) {
+      for (var i = 0; i < suggestionItemsDivArray.length; i++) {
+        suggestionItemsDivArray[i].classList.remove(ACTIVE_DIV_CLASS);
+      }
+    }
+
+    /**
+     * @arg element   A DOM element that will NOT be "closed" if it has the
+     *                class `SUGGESTIONS_DIV_CLASS`.
+     */
+    function closeAllLists(element) {
+      var suggestionsDivArray = document.getElementsByClassName(SUGGESTIONS_DIV_CLASS);
+      for (var i = 0; i < suggestionsDivArray.length; i++) {
+        if (element != suggestionsDivArray[i] && element != input) {
+          suggestionsDivArray[i].parentNode.removeChild(suggestionsDivArray[i]);
+        }
+      }
+    }
+  }
+
+  var artists = ["Jai Wolf", "Madeon", "ARMNHMR", "porter robinson"];
+  var searchbar = document.getElementById("search-bar-input");
+  enableSuggestions(searchbar, artists);
+</script>
