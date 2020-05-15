@@ -114,5 +114,5 @@ function enableSuggestions(input, items) {
 }
 
 var artists = ["Jai Wolf", "Madeon", "ARMNHMR", "porter robinson"];
-var searchbar = document.getElementById("search-bar-input");
+var searchbar = document.getElementById("searchbar-input");
 enableSuggestions(searchbar, artists);

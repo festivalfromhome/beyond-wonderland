@@ -2,7 +2,7 @@
   <form autocomplete="off" onsubmit="submitSearch()">
     <div class="relative inline-flex items-center relative w-full px-5 py-3 shadow focus-within:shadow-lg rounded-full bg-white transition-shadow duration-200 ease-in-out">
       <input
-        id="search-bar-input"
+        id="searchbar-input"
         type="text"
         name="artist"
         placeholder="search for artists"
@@ -23,4 +23,7 @@
     </div>
   </form>
 </div>
-<script type="text/javascript" src="/js/searchbar.js"></script>
+{{ $fuseScript := resources.Get "js/fuse.js" }}
+{{ $searchbarScript := resources.Get "js/searchbar.js" }}
+{{ $searchBundle := slice $fuseScript $searchbarScript | resources.Concat "js/search.js" | resources.Minify | resources.Fingerprint }}
+<script type="text/javascript" src="{{ $searchBundle.Permalink }}"></script>
