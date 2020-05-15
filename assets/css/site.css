@@ -1,6 +1,6 @@
 /* Header */
 .bg-nav {
-  background: linear-gradient(90deg, #12c2e9, #c471ed 50%, #f64f59 100%);
+  background: linear-gradient(60deg, #12c2e9, #c471ed 50%, #f64f59 100%);
 }
 .bg-nav-menu {
   background: #00000020;
@@ -20,3 +20,9 @@ input#nav-toggle:checked~#nav-menu {
   display: block;
 }
 /* END Navbar Menu Toggle */
+
+/* Footer */
+.bg-ftr {
+  background: linear-gradient(60deg, #f64f59, #c471ed 50%, #12c2e9 100%);
+}
+/* END Footer */

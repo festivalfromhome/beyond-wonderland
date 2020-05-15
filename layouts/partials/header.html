@@ -20,10 +20,10 @@
       </svg>
     </label>
 
-    <ul id="nav-menu" class="sm:flex w-full sm:w-auto hidden sm:block sm:mt-0 sm:space-x-2 bg-nav-menu sm:bg-transparent text-white">
-      {{ range where .Site.Pages "Params.isbasepage" true }}
+    <ul id="nav-menu" class="sm:flex w-full sm:w-auto hidden sm:block mt-0 py-3 sm:pt-0 sm:space-x-2 bg-nav-menu sm:bg-transparent text-sm text-center text-white tracking-widest">
+      {{ range where .Site.Pages "Params.isinheader" true }}
       <li class="h-auto">
-        <a href="{{ .Permalink }}" class="inline-block w-full py-3 text-center text-sm tracking-widest font-bold hover:text-gray-light">{{ .Title }}</a>
+        <a href="{{ .Permalink }}" class="inline-block w-full py-3 hover:text-gray-light">{{ lower .Title }}</a>
       </li>
       {{ end }}
     </ul>
