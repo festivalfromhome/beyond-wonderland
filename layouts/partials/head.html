@@ -27,4 +27,4 @@
   {{ $styles := $styles| minify | fingerprint | resources.PostProcess }}
   <link rel="stylesheet" href="{{ $styles.Permalink }}" integrity="{{ $styles.Data.Integrity }}">
 {{ end }}
-<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />"
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />

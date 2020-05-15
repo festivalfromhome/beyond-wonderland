@@ -1,3 +1,27 @@
+/* Header */
+.bg-nav {
+  background: linear-gradient(90deg, #12c2e9, #c471ed 50%, #f64f59 100%);
+}
+.bg-nav-menu {
+  background: #00000030;
+}
+/* END Header*/
+
+
+/* Navbar Menu Toggle */
+input#nav-toggle:checked~label#show-button {
+  display: none;
+}
+
+input#nav-toggle:checked~label#hide-button {
+  display: flex;
+}
+
+input#nav-toggle:checked~#nav-menu {
+  display: block;
+}
+/* END Navbar Menu Toggle */
+
 .starter {
   color: blue;
 }
