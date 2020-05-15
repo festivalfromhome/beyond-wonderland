@@ -42,7 +42,8 @@ input#nav-toggle:checked~#nav-menu {
 }
 
 .suggestions div {
-  @apply p-2;
+  @apply px-4;
+  @apply py-2;
   @apply cursor-pointer;
 }
 
@@ -51,7 +52,7 @@ input#nav-toggle:checked~#nav-menu {
 }
 
 .suggestion-active {
-  background: #1e2123;
+  background: #4f575f !important;
   color: #fff;
 }
 /* END Search Suggestions */
