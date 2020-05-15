@@ -23,7 +23,7 @@
     <ul id="nav-menu" class="sm:flex w-full sm:w-auto hidden sm:block sm:mt-0 sm:space-x-2 bg-nav-menu sm:bg-transparent text-white">
       {{ range where .Site.Pages "Params.isbasepage" true }}
       <li class="h-auto">
-        <a href="{{ .Permalink }}" class="inline-block w-full py-3 text-center hover:text-gray-light">{{ .Title }}</a>
+        <a href="{{ .Permalink }}" class="inline-block w-full py-3 text-center text-sm tracking-widest font-bold hover:text-gray-light">{{ .Title }}</a>
       </li>
       {{ end }}
     </ul>
