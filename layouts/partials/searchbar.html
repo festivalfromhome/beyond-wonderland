@@ -26,4 +26,4 @@
 {{ $fuseScript := resources.Get "js/fuse.js" }}
 {{ $searchbarScript := resources.Get "js/searchbar.js" }}
 {{ $searchBundle := slice $fuseScript $searchbarScript | resources.Concat "js/search.js" | resources.Minify | resources.Fingerprint }}
-<script type="text/javascript" src="{{ $searchBundle.Permalink }}"></script>
+<script type="text/javascript" src="{{ $searchBundle.Permalink }}" integrity="{{ $searchBundle.Data.Integrity }}"></script>
