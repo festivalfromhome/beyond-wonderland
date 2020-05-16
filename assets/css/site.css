@@ -56,3 +56,10 @@ input#nav-toggle:checked~#nav-menu {
   color: #fff;
 }
 /* END Search Suggestions */
+
+/* Dropdown Toggle */
+input.dropdown-toggle:checked ~ .dropdown-menu {
+  @apply block;
+  top: 80%;
+}
+/* END Navbar Menu Toggle */
