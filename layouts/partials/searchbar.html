@@ -8,7 +8,7 @@
         placeholder="search for artists"
         spellcheck="false"
         class="flex-auto outline-none text-sm text-gray leading-tight tracking-wider">
-      <button type="submit" class="ml-2">
+      <button id="search-button" type="submit" class="ml-2">
         <svg
           class="w-4 text-gray fill-current"
           viewBox="-1 0 136 136.21852"
@@ -26,7 +26,8 @@
 {{ $searchBundle := slice $fuseScript $searchbarScript | resources.Concat "js/search.js" | resources.Minify | resources.Fingerprint }}
 <script type="text/javascript" src="{{ $searchBundle.Permalink }}" integrity="{{ $searchBundle.Data.Integrity }}"></script>
 <script type="text/javascript">
-var suggestionList = {{ .suggestionlist }};
-var searchbar = document.getElementById("searchbar-input");
-enableSuggestions(searchbar, suggestionList);
+var suggestionList = {{ .Site.Data._search_artists }};
+var searchInput = document.getElementById("searchbar-input");
+var searchButton = document.getElementById("search-button");
+enableSuggestions(searchButton, searchInput, suggestionList);
 </script>

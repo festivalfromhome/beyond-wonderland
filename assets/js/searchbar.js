@@ -2,15 +2,14 @@
  * @arg input   An input field in the DOM.
  * @arg items   A array of strings, containing valid suggestion items.
  */
-function enableSuggestions(input, items) {
-  var FORM_ID = "search-form";
+function enableSuggestions(button, input, items) {
   var SUGGESTIONS_DIV_CLASS = "suggestions";
   var ACTIVE_DIV_CLASS = "suggestion-active";
-  var NO_RESULTS_TEXT = "no results";
   var currentFocus;
 
   var fuseOptions = {
-    threshold: 0.42
+    keys: ["name"],
+    threshold: 0.4
   }
   var fuse = new Fuse(items, fuseOptions);
 
@@ -31,32 +30,31 @@ function enableSuggestions(input, items) {
 
     // Find matching items.
     var matchingItems = fuse.search(val);
-    if (val.length > 3 && matchingItems.length === 0) {
-      matchingItems = [{item: NO_RESULTS_TEXT}];
-    }
     var numResults = Math.min(matchingItems.length, 8);
-    console.log(matchingItems);
 
     // Add suggestion items.
     for (i = 0; i < numResults; i++) {
       suggestionItemDiv = document.createElement("div");
-      suggestionItemDiv.innerHTML = matchingItems[i].item;
+      suggestionItemDiv.innerText = matchingItems[i].item.name;
       
       // Listen for clicks on suggestion item.
       suggestionItemDiv.addEventListener("click", function(clickEvent) {
-        if (this.innerText !== NO_RESULTS_TEXT) {
-          input.value = this.innerText;
-          closeAllLists();
-          var searchForm = document.getElementById(FORM_ID);
-          searchForm.submit();
-        }
+        input.value = this.innerText;
+        closeAllLists();
+        button.click();
       });
 
       suggestionsDiv.appendChild(suggestionItemDiv);
     }
+
+    if (numResults > 0) {
+      var suggestionItemsDivArray = suggestionsDiv.getElementsByTagName("div");
+      currentFocus = 0;
+      addActive(suggestionItemsDivArray);
+    }
   });
 
-  // Listen for button presses (UP, DOWN, ENTER).
+  // Listen for button presses (UP, DOWN, TAB, ENTER).
   input.addEventListener("keydown", function(keydownEvent) {
     var suggestionsDiv = document.getElementById(this.id + SUGGESTIONS_DIV_CLASS);
     if (suggestionsDiv === null) { return false; }
@@ -68,39 +66,51 @@ function enableSuggestions(input, items) {
       keydownEvent.preventDefault();
       currentFocus--;
       addActive(suggestionItemsDivArray);
+      return;
     }
     
-    if (keydownEvent.keyCode == 40) {
-      // DOWN keypress
+    if (keydownEvent.keyCode == 40 || keydownEvent.keyCode == 9) {
+      // DOWN or TAB keypress
       keydownEvent.preventDefault();
       currentFocus++;
       addActive(suggestionItemsDivArray);
+      return;
     }
     
     if (keydownEvent.keyCode == 13) {
       // ENTER keypress
       keydownEvent.preventDefault();
+
       if (currentFocus > -1 && suggestionItemsDivArray) {
         // Simulate click on active suggestion item div.
         suggestionItemsDivArray[currentFocus].click();
+        return;
       }
+
+      button.click();
+      return;
     }
   });
 
-  // Listen for submit events on the search form.
-  var searchForm = document.getElementById(FORM_ID);
-  searchForm.addEventListener("submit", function(submitEvent) {
-    submitEvent.preventDefault();
-    console.log("Submitting");
+  button.addEventListener("click", function(clickEvent) {
+    clickEvent.preventDefault();
+    var url = "/artist/";
+    var matchingItems = fuse.search(input.value);
+    if (matchingItems.length > 0) {
+      url += matchingItems[0].item.url;
+    } else {
+      url += input.value;
+    }
+    window.location.href = url;
   });
 
   // Listen for click events outside of suggestions div.
-  document.addEventListener("click", function (clickEvent) {
+  document.addEventListener("click", function(clickEvent) {
     closeAllLists(clickEvent.target);
   });
 
 
-  /* Helper Functions */
+  /* DOM Helper Functions */
 
   /**
    * @arg suggestionItemsDivArray   An array of divs on the DOM, each

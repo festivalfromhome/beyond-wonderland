@@ -52,7 +52,7 @@ input#nav-toggle:checked~#nav-menu {
 }
 
 .suggestion-active {
-  background: #4f575f !important;
+  background: #12c2e9 !important;
   color: #fff;
 }
 /* END Search Suggestions */
