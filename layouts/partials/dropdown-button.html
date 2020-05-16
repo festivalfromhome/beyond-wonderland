@@ -9,11 +9,15 @@
     </svg>
   </div>
   <ul class="dropdown-menu hidden absolute left-0 right-0 pt-2 rounded-b-md bg-orange overflow-hidden">
+    {{- with .youtube_link -}}
     <li class="bg-black bg-opacity-25 hover:bg-opacity-50">
-      <a href="/" target="_blank" class="inline-block py-2 w-full">YouTube</a>
+      <a href="{{ . }}" target="_blank" class="inline-block py-2 w-full">YouTube</a>
     </li>
+    {{- end -}}
+    {{- with .soundcloud_link -}}
     <li class="bg-black bg-opacity-25 hover:bg-opacity-50">
-      <a href="/" target="_blank" class="inline-block py-2 w-full">SoundCloud</a>
+      <a href="{{ . }}" target="_blank" class="inline-block py-2 w-full">SoundCloud</a>
     </li>
+    {{- end -}}
   </ul>
 </label>

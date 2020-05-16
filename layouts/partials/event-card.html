@@ -37,7 +37,10 @@
         href="/">
         view schedule
       </a>
-      {{ partial "dropdown-button.html" (dict "id" "1" ) }}  
+      {{ $event1 := (dict "id" 1 "youtube_link" "" "soundcloud_link" "") }}
+      {{- if (len $event1.youtube_link) or (len $event1.soundcloud_link) -}}
+      {{ partial "dropdown-button.html" $event1 }}  
+      {{- end -}}
     </div>
   </div>
 </div>
