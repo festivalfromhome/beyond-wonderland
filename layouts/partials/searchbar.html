@@ -1,5 +1,5 @@
 <div>
-  <form autocomplete="off" onsubmit="submitSearch()">
+  <form id="search-form" autocomplete="off">
     <div class="relative inline-flex items-center relative w-full px-5 py-3 shadow hover:shadow-lg focus-within:shadow-lg rounded-full bg-white transition-shadow duration-200 ease-in-out">
       <input
         id="searchbar-input"
@@ -25,3 +25,8 @@
 {{ $searchbarScript := resources.Get "js/searchbar.js" }}
 {{ $searchBundle := slice $fuseScript $searchbarScript | resources.Concat "js/search.js" | resources.Minify | resources.Fingerprint }}
 <script type="text/javascript" src="{{ $searchBundle.Permalink }}" integrity="{{ $searchBundle.Data.Integrity }}"></script>
+<script type="text/javascript">
+var suggestionList = {{ .suggestionlist }};
+var searchbar = document.getElementById("searchbar-input");
+enableSuggestions(searchbar, suggestionList);
+</script>

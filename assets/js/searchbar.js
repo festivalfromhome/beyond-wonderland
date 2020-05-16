@@ -3,9 +3,16 @@
  * @arg items   A array of strings, containing valid suggestion items.
  */
 function enableSuggestions(input, items) {
+  var FORM_ID = "search-form";
   var SUGGESTIONS_DIV_CLASS = "suggestions";
   var ACTIVE_DIV_CLASS = "suggestion-active";
+  var NO_RESULTS_TEXT = "no results";
   var currentFocus;
+
+  var fuseOptions = {
+    threshold: 0.42
+  }
+  var fuse = new Fuse(items, fuseOptions);
 
   // Listen for change to input field.
   input.addEventListener("input", function(_inputEvent) {
@@ -22,15 +29,27 @@ function enableSuggestions(input, items) {
 
     this.parentNode.appendChild(suggestionsDiv);
 
+    // Find matching items.
+    var matchingItems = fuse.search(val);
+    if (val.length > 3 && matchingItems.length === 0) {
+      matchingItems = [{item: NO_RESULTS_TEXT}];
+    }
+    var numResults = Math.min(matchingItems.length, 8);
+    console.log(matchingItems);
+
     // Add suggestion items.
-    for (i = 0; i < items.length; i++) {
+    for (i = 0; i < numResults; i++) {
       suggestionItemDiv = document.createElement("div");
-      suggestionItemDiv.innerHTML = items[i];
+      suggestionItemDiv.innerHTML = matchingItems[i].item;
       
       // Listen for clicks on suggestion item.
       suggestionItemDiv.addEventListener("click", function(clickEvent) {
-        input.value = this.innerText;
-        closeAllLists();
+        if (this.innerText !== NO_RESULTS_TEXT) {
+          input.value = this.innerText;
+          closeAllLists();
+          var searchForm = document.getElementById(FORM_ID);
+          searchForm.submit();
+        }
       });
 
       suggestionsDiv.appendChild(suggestionItemDiv);
@@ -66,6 +85,13 @@ function enableSuggestions(input, items) {
         suggestionItemsDivArray[currentFocus].click();
       }
     }
+  });
+
+  // Listen for submit events on the search form.
+  var searchForm = document.getElementById(FORM_ID);
+  searchForm.addEventListener("submit", function(submitEvent) {
+    submitEvent.preventDefault();
+    console.log("Submitting");
   });
 
   // Listen for click events outside of suggestions div.
@@ -112,7 +138,3 @@ function enableSuggestions(input, items) {
     }
   }
 }
-
-var artists = ["Jai Wolf", "Madeon", "ARMNHMR", "porter robinson"];
-var searchbar = document.getElementById("searchbar-input");
-enableSuggestions(searchbar, artists);
