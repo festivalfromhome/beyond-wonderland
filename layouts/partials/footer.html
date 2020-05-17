@@ -1,6 +1,6 @@
 <footer class="mt-24 w-full bg-ftr p-4 pin-b text-white">
   <div class="flex justify-between text-xs tracking-wider">
-    {{ range where .Site.Pages "Params.isinfooter" true }}
+    {{ range where .Site.Pages "Params.is_in_footer" true }}
       <a href="{{ .Permalink }}">{{ lower .Page.Title }}</a>
     {{ end }}
   </div>
