@@ -25,6 +25,9 @@ input#nav-toggle:checked~#nav-menu {
 /* END Footer */
 
 /* Search Suggestions */
+.hidden-easter-egg {
+  color: blue;
+}
 .suggestions {
   @apply absolute;
   top: 100%;
