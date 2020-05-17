@@ -94,12 +94,12 @@ function enableSuggestions(button, input, items) {
 
   button.addEventListener("click", function(clickEvent) {
     clickEvent.preventDefault();
-    var url = "/artist/";
     var matchingItems = fuse.search(input.value);
+    let url = '';
     if (matchingItems.length > 0) {
-      url += matchingItems[0].item.url;
+      url = matchingItems[0].item['ffh_name'];
     } else {
-      url += input.value;
+      url = input.value;
     }
     window.location.href = url;
   });
